@@ -1,0 +1,11 @@
+{
+  "name": "reversi",
+  "version": "1.0.0",
+  "description": "Reversi in the browser: vanilla JavaScript, an alpha-beta AI in a Web Worker, two-player mode and an English/Turkish interface.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "license": "MIT"
+}
