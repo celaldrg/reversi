@@ -65,8 +65,8 @@ body {
 .app {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: auto auto auto auto auto auto auto 1fr;
-  grid-template-areas: "top" "score" "status" "board" "controls" "info" "help" "foot";
+  grid-template-rows: auto auto auto auto auto auto 1fr;
+  grid-template-areas: "top" "score" "status" "board" "controls" "info" "end";
   gap: 8px;
   width: 100%;
   max-width: calc(640px + var(--pad-left) + var(--pad-right));
@@ -633,20 +633,53 @@ body {
 .help {
   grid-area: help;
   align-self: start;
-  padding: 14px 16px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: rgba(30, 41, 59, 0.6);
 }
 
+.help summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  list-style: none;
+  transition: color var(--t-ui) ease;
+}
+
+.help summary::-webkit-details-marker { display: none; }
+
+.help summary::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  margin-left: auto;
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
+  transform: rotate(-45deg);
+  transition: transform var(--t-ui) ease;
+}
+
+.help[open] summary::after { transform: rotate(45deg); }
+
+.help summary:focus-visible {
+  outline: 2px solid var(--accent-bright);
+  outline-offset: 2px;
+}
+
 .help h2 {
-  margin: 0 0 6px;
+  margin: 0;
   color: var(--muted);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
+
+.help-body { padding: 0 16px 14px; }
 
 .help p {
   margin: 0;
@@ -816,6 +849,22 @@ body {
   margin-top: 4px;
 }
 
+/* ---------- One column: the help folds up beside the footer, and opens above it ---------- */
+
+.app-end {
+  grid-area: end;
+  align-self: end;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.app-end .help { margin-bottom: max(8px, env(safe-area-inset-bottom)); }
+.app-end .help[open] { flex-basis: 100%; margin-bottom: 0; }
+.app-end .footer { margin-left: auto; }
+.app-end .help[open] + .footer { flex-basis: 100%; margin-left: 0; }
+
 /* ---------- Wide layouts: board on the left, panel on the right ---------- */
 
 @media (orientation: landscape) and (min-width: 600px) {
@@ -842,6 +891,9 @@ body {
     width: min(640px, calc(100dvh - 150px), calc(100vw - var(--pad-left) - var(--pad-right) - var(--gap) - var(--side-min)));
   }
 
+  .app-end { display: contents; }
+  .app-end .help { margin-bottom: 0; }
+  .app-end .footer { margin: 0; }
   .scoreboard { grid-template-columns: minmax(0, 1fr); }
   .status { justify-content: flex-start; text-align: left; }
   .info { text-align: left; }

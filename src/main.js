@@ -31,6 +31,7 @@ const els = {
   undo: byId('undo'),
   hints: byId('hints'),
   info: byId('info'),
+  help: byId('help'),
   ratio: byId('ratio-black'),
   setup: byId('setup'),
   setupForm: byId('setup-form'),
@@ -52,6 +53,7 @@ const shortcuts = new Map([
   ['h', toggleHints],
   ['n', openSetup],
 ]);
+const wideLayout = window.matchMedia('(orientation: landscape) and (min-width: 600px)');
 let toastTimer = 0;
 
 /** Settings of the last game started, keeping only the known fields. */
@@ -238,13 +240,19 @@ function handleKey(event) {
   }
 }
 
+/** The help is open beside the board on wide layouts and folded under it on narrow ones. */
+function syncHelp() {
+  els.help.open = wideLayout.matches;
+}
+
 /**
  * A board key pressed while the focus is elsewhere (on the board the view
  * handles it first and marks it handled): any arrow key, or Enter / Space
  * while nothing has the focus, since a focused button needs those two itself.
+ * Arrows on a focused link or the help toggle keep scrolling the page.
  */
 function wantsBoard({ key, target }) {
-  if (String(key).startsWith('Arrow')) return true;
+  if (String(key).startsWith('Arrow')) return !target.closest?.('a, summary');
   const nothingFocused = target === document.body || target === document.documentElement;
   return nothingFocused && (key === 'Enter' || key === ' ');
 }
@@ -260,6 +268,9 @@ els.setup.addEventListener('click', (event) => {
   if (event.target === els.setup) els.setup.close(); // a click on the backdrop
 });
 document.addEventListener('keydown', handleKey);
+wideLayout.addEventListener('change', syncHelp);
+
+syncHelp();
 
 translatePage();
 commit(ui.game, 'none');

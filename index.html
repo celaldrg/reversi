@@ -67,15 +67,19 @@
 
     <p class="info" id="info">Against the computer · Medium</p>
 
-    <section class="help" aria-labelledby="help-title">
-      <h2 id="help-title" data-i18n="helpTitle">How to play</h2>
-      <p data-i18n="helpRules">Place a disc so that it traps a straight line of your opponent's discs against one of yours: every trapped line flips. No legal move means you pass. When neither side can move, the most discs wins.</p>
-      <p class="help-keys" data-i18n="helpKeys">Keyboard: arrow keys move, Enter places a disc, U undoes, H toggles hints, N starts a new game.</p>
-    </section>
+    <div class="app-end">
+      <details class="help" id="help">
+        <summary><h2 data-i18n="helpTitle">How to play</h2></summary>
+        <div class="help-body">
+          <p data-i18n="helpRules">Place a disc so that it traps a straight line of your opponent's discs against one of yours: every trapped line flips. No legal move means you pass. When neither side can move, the most discs wins.</p>
+          <p class="help-keys" data-i18n="helpKeys">Keyboard: arrow keys move, Enter places a disc, U undoes, H toggles hints, N starts a new game.</p>
+        </div>
+      </details>
 
-    <footer class="footer">
-      <a href="https://github.com/celaldrg/reversi" data-i18n="footer">MIT · Source on GitHub</a>
-    </footer>
+      <footer class="footer">
+        <a href="https://github.com/celaldrg/reversi" data-i18n="footer">MIT · Source on GitHub</a>
+      </footer>
+    </div>
   </div>
 
   <dialog class="setup" id="setup" aria-labelledby="setup-title">
